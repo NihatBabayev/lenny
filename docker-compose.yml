@@ -1,0 +1,55 @@
+version: '3.1'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-container
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=niko1234
+    networks:
+      - lenny-network
+
+  redis:
+    image: redis:latest
+    container_name: redis-container
+    environment:
+      REDIS_PASSWORD: password
+    ports:
+      - "6379:6379"
+    networks:
+      - lenny-network
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    container_name: lenny-app-container
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: niko1234
+      email_usernameEnv: forcanvaresume@gmail.com
+      email_passwordEnv: zupfrzkyykffyfcf
+      token_signing_key: +MPxoqKdOrH6YXSxdfIey4LebZxp3y5EMqLj9hgn/j6s3V7gaFiyhKGcwCIvJMBVPdYbhhtFSPIHK0qQInEI8g==
+      SPRING_CACHE_TYPE: redis
+      SPRING_REDIS_PORT: 6379
+      SPRING_REDIS_HOST: redis-container
+      SPRING_REDIS_PASSWORD: password
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - lenny-network
+networks:
+  lenny-network:
+    driver: bridge
