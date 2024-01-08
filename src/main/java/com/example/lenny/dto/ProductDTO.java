@@ -1,22 +1,28 @@
 package com.example.lenny.dto;
 
-import com.example.lenny.entity.ProductRDBMS;
+import com.example.lenny.entity.Comment;
 import lombok.Data;
+import java.util.List;
 
 @Data
 public class ProductDTO {
     String name;
     double rating;
-    private double price;
-    private String description;
+    double price;
+    String description;
     int soldNumber;
-    public static ProductDTO mapToDTO(ProductRDBMS product) {
-        ProductDTO dto = new ProductDTO();
-        dto.setName(product.getName());
-        dto.setPrice(product.getPrice());
-        dto.setDescription(product.getDescription());
-        dto.setRating(product.getRating());
-        dto.setSoldNumber(product.getSoldNumber());
-        return dto;
-    }
+    String photo;
+    List<String>  photos;
+    MerchantDTO merchant;
+    String category;
+    String location;
+    List<Comment> comments;
+
+
+    Integer ratingFive;
+    Integer ratingFour;
+    Integer ratingThree;
+    Integer ratingTwo;
+    Integer ratingOne;
+    Integer totalReviews;
 }

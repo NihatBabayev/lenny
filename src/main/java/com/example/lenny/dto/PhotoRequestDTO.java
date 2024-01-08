@@ -3,7 +3,7 @@ package com.example.lenny.dto;
 import lombok.Data;
 
 @Data
-public class ProductPhotoDTO {
+public class PhotoRequestDTO {
     String productName;
-    String photo;
+    String merchantName;
 }

@@ -1,21 +1,16 @@
 package com.example.lenny.controller;
 
-import com.example.lenny.dto.ProductPhotoDTO;
+import com.example.lenny.dto.ProductRequest;
 import com.example.lenny.dto.ResponseModel;
-//import com.example.lenny.entity.Product;
-import com.example.lenny.entity.ProductRDBMS;
+import com.example.lenny.entity.Product;
 import com.example.lenny.security.JwtService;
-import com.example.lenny.service.Impl.ProductRDBMSServiceImpl;
 import com.example.lenny.service.MerchantService;
-import com.example.lenny.service.ProductRDBMSService;
-//import com.example.lenny.service.ProductService;
+import com.example.lenny.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -23,25 +18,25 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @RequestMapping(path = "/merchant")
 public class MerchantController {
-    private final MerchantService merchantService;
-//    private final ProductService productService;
-    private final ProductRDBMSServiceImpl productService;
+    private final ProductService productService;
     private final JwtService jwtService;
 
     @PostMapping("/product")
-    public ResponseEntity<ResponseModel<String>> addProduct(@RequestBody ProductRDBMS product,
+    public ResponseEntity<ResponseModel<String>> addProduct(@RequestBody ProductRequest product,
                                                             HttpServletRequest request) throws IOException {
         String username = jwtService.extractUsernameFromHeader(request.getHeader("Authorization"));
         return new ResponseEntity<>(productService.addProduct(product, username), HttpStatus.OK);
     }
-    @PostMapping("/product/photo")
-    public ResponseEntity<ResponseModel<String>> addProductPhoto(@RequestBody ProductPhotoDTO productPhotoDTO,
-                                                            HttpServletRequest request) throws IOException {
-        String username = jwtService.extractUsernameFromHeader(request.getHeader("Authorization"));
 
-        return new ResponseEntity<>(productService.addProductPhoto(username, productPhotoDTO), HttpStatus.OK);
-    }
+//    @PostMapping("/product/photo")
+//    public ResponseEntity<ResponseModel<String>> addProductPhoto(@RequestBody ProductPhotoDTO productPhotoDTO,
+//                                                            HttpServletRequest request) throws IOException {
+//        String username = jwtService.extractUsernameFromHeader(request.getHeader("Authorization"));
+//
+//        return new ResponseEntity<>(productService.addProductPhoto(username, productPhotoDTO), HttpStatus.OK);
+//    }
 
+//------------------------------------------------------------------------------------------
 //    @PostMapping("/product")
 //    public ResponseEntity<ResponseModel<String>> addProduct(@RequestBody Product product,
 //                                                            HttpServletRequest request) throws IOException {

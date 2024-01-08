@@ -6,17 +6,14 @@ import lombok.Data;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "merchants", schema = "lenny")
 @Data
-public class Merchant {
+@Entity
+@Table(name = "categories", schema = "lenny")
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @OneToMany(mappedBy = "merchant", cascade = CascadeType.ALL)
+    private String name;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private Set<Product> products = new HashSet<>();
 }

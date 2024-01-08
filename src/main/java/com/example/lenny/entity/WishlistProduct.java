@@ -16,7 +16,7 @@ public class WishlistProduct {
     private Wishlist wishlist;
 
     @JoinColumn(name = "product_id")
-    private Long productId; //coming from mongodb
+    private Long productId;
 
 
 
