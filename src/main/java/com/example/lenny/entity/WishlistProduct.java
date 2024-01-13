@@ -11,13 +11,14 @@ public class WishlistProduct {
     @GeneratedValue
     private Long id;
 
+    private Integer marked;
+
     @ManyToOne
     @JoinColumn(name = "wishlist_id")
     private Wishlist wishlist;
 
     @JoinColumn(name = "product_id")
     private Long productId;
-
 
 
 }

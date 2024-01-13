@@ -16,7 +16,8 @@ public class ProductDTO {
     MerchantDTO merchant;
     String category;
     String location;
-    List<Comment> comments;
+    List<CommentDTO> comments;
+    Integer marked;
 
 
     Integer ratingFive;

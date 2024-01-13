@@ -35,8 +35,8 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<ResponseModel<String>> signupUser(@RequestBody UserDTO userDTO,
-                                               @RequestParam("type") String type, // "customer" or "merchant"
-                                               @RequestParam(value = "otp", required = false) String otpCode) {
+                                                            @RequestParam("type") String type, // "customer" or "merchant"
+                                                            @RequestParam(value = "otp", required = false) String otpCode) {
         String email = userDTO.getEmail();
 
         if (userService.isUserExists(email)) {
@@ -62,7 +62,7 @@ public class AuthController {
                 responseModel.setData(jwtToken);
                 responseModel.setMessage("Successfully registered");
                 return new ResponseEntity<>(responseModel, HttpStatus.CREATED);
-            }  else {
+            } else {
 
                 throw new InvalidOtpCodeException();
             }
@@ -71,10 +71,14 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<ResponseModel<String>> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(authRequest.getUsername());
+            String jwtToken = jwtService.generateToken(authRequest.getUsername());
+            ResponseModel<String> responseModel = new ResponseModel<>();
+            responseModel.setData(jwtToken);
+            responseModel.setMessage("Successfully logged in");
+            return new ResponseEntity<>(responseModel, HttpStatus.OK);
         } else {
             throw new UsernameNotFoundException("invalid user request !");
         }

@@ -1,10 +1,7 @@
 package com.example.lenny.config;
 
 import com.example.lenny.dto.ResponseModel;
-import com.example.lenny.exception.InvalidOtpCodeException;
-import com.example.lenny.exception.PhotoDoesntExistException;
-import com.example.lenny.exception.ProductIsNullException;
-import com.example.lenny.exception.UserAlreadyExistsException;
+import com.example.lenny.exception.*;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,7 +21,13 @@ public class ExceptionHandlingConfig {
                     InvalidOtpCodeException.class,
                     ProductIsNullException.class,
                     IOException.class,
-                    PhotoDoesntExistException.class
+                    PhotoDoesntExistException.class,
+                    PhotosDoesntExistException.class,
+                    CommentsAreEmptyException.class,
+                    UserIsNotCustomerException.class,
+                    ProductAlreadyExistsInWishlistException.class,
+                    ProductDoesntExistInWishlistException.class,
+                    ProductAlreadyUnmarkedException.class
             })
     public ResponseEntity<ResponseModel<String>> handleCustomExceptions(Exception ex) throws Exception {
         ResponseModel<String> exceptionResponseModel = new ResponseModel<>();
@@ -32,7 +35,19 @@ public class ExceptionHandlingConfig {
         StringBuilder errorMessage = new StringBuilder(ex.getMessage());
 
 
-        if (ex instanceof UserAlreadyExistsException || ex instanceof UsernameNotFoundException || ex instanceof InvalidOtpCodeException || ex instanceof ProductIsNullException || ex instanceof IOException || ex instanceof  PhotoDoesntExistException) {
+        if (ex instanceof UserAlreadyExistsException
+                || ex instanceof UsernameNotFoundException
+                || ex instanceof InvalidOtpCodeException
+                || ex instanceof ProductIsNullException
+                || ex instanceof IOException
+                || ex instanceof  PhotoDoesntExistException
+                || ex instanceof  PhotosDoesntExistException
+                || ex instanceof  CommentsAreEmptyException
+                || ex instanceof  UserIsNotCustomerException
+                || ex instanceof  ProductAlreadyExistsInWishlistException
+                || ex instanceof  ProductDoesntExistInWishlistException
+                || ex instanceof  ProductAlreadyUnmarkedException
+        ) {
             httpStatus = HttpStatus.BAD_REQUEST;
 
         }

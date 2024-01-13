@@ -11,7 +11,7 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private double rating;
+    private Integer rating;
     private Integer likeNumber;
     private String text;
     private String localDateTime;

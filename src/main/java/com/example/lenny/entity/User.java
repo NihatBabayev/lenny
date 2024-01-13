@@ -2,6 +2,7 @@ package com.example.lenny.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "users",schema = "lenny")
@@ -21,7 +22,9 @@ public class User {
     @Column(name = "is_active")
     private boolean isActive;
     @OneToOne(mappedBy = "user")
+    @EqualsAndHashCode.Exclude
     private Merchant merchant;
     @OneToOne(mappedBy = "user")
+    @EqualsAndHashCode.Exclude
     private Customer customer;
 }

@@ -1,16 +1,16 @@
 package com.example.lenny.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "products", schema = "lenny")
-@Data
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Product{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,5 +50,27 @@ public class Product{
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Set<Comment> comments = new HashSet<>();
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, price, description, rating, soldNumber, color, location, photo);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Product product = (Product) obj;
+        return Objects.equals(id, product.id) &&
+                Objects.equals(name, product.name) &&
+                Objects.equals(price, product.price) &&
+                Objects.equals(description, product.description) &&
+                Objects.equals(rating, product.rating) &&
+                Objects.equals(soldNumber, product.soldNumber) &&
+                Objects.equals(color, product.color) &&
+                Objects.equals(location, product.location) &&
+                Objects.equals(photo, product.photo);
+    }
+
 
 }
