@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -230,6 +231,7 @@ public class ProductServiceImpl implements ProductService {
         return responseModel;
     }
 
+
     @Override
     @Transactional
     public ResponseModel<List<ProductDTO>> deleteProductInWishlist(String username, String productName, String location) {
@@ -260,7 +262,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public ResponseModel<List<ProductDTO>> undoProductInWishlist(String username, String productName, String location) {
+    public ResponseModel<List<ProductDTO>> undoProductInWishlist(String username, String productName, String location) throws InterruptedException {
         User user = userRepository.findByEmail(username);
         Customer customer = user.getCustomer();
         if (customer == null) {
@@ -282,6 +284,8 @@ public class ProductServiceImpl implements ProductService {
             wishlistProductRepository.setMarkedField(wishlistProduct.getId(), 0);
             wishlistRepository.save(workingWishlist);
         }
+        workingWishlist = wishlistRepository.findByCustomer(customer);
+
         ResponseModel<List<ProductDTO>> responseModel = new ResponseModel<>();
         responseModel.setMessage("Product unmarked");
         responseModel.setData(getProductsInWishlistOfCustomer(username).getData());
@@ -319,6 +323,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public ResponseModel<CheckoutDTO> checkoutWishlistOfCustomer(String username) {
         User user = userRepository.findByEmail(username);
         Customer customer = user.getCustomer();
@@ -342,6 +347,13 @@ public class ProductServiceImpl implements ProductService {
         double shippingDiscount = totalPrice/10;
         double taxAndFee = totalPrice/40;
         double finalPrice = totalPrice - shippingDiscount + taxAndFee;
+
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        totalPrice = Double.parseDouble(decimalFormat.format(totalPrice));
+        shippingDiscount = Double.parseDouble(decimalFormat.format(shippingDiscount));
+        taxAndFee = Double.parseDouble(decimalFormat.format(taxAndFee));
+        finalPrice = Double.parseDouble(decimalFormat.format(finalPrice));
+
         CheckoutDTO checkoutDTO = new CheckoutDTO();
         checkoutDTO.setProducts(checkoutProductDTOList);
         checkoutDTO.setTotalPrice(totalPrice);

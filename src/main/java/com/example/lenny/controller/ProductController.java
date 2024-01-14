@@ -58,7 +58,7 @@ public class ProductController {
     @PostMapping("/cart/undo")
     public ResponseEntity<ResponseModel<List<ProductDTO>>> undoProductInWishlist(@RequestParam("product_name") String productName,
                                                                                  @RequestParam("product_location") String location,
-                                                                                 HttpServletRequest request){
+                                                                                 HttpServletRequest request) throws InterruptedException {
         String username = jwtService.extractUsernameFromHeader(request.getHeader("Authorization"));
         return new ResponseEntity<>(productService.undoProductInWishlist(username, productName, location), HttpStatus.OK);
     }
@@ -74,6 +74,5 @@ public class ProductController {
     public ResponseEntity<ResponseModel<CheckoutDTO>> checkoutProductsInWishlist(HttpServletRequest request){
         String username = jwtService.extractUsernameFromHeader(request.getHeader("Authorization"));
         return new ResponseEntity<>(productService.checkoutWishlistOfCustomer(username), HttpStatus.OK);
-
     }
 }

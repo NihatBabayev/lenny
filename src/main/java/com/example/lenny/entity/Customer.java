@@ -17,8 +17,7 @@ public class Customer {
     @Column(name = "lenny_coins")
     private int lennyCoins;
 
-    @OneToOne
-    @JoinColumn(name = "wishlist_id")
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     private Wishlist wishlist;
 
     @OneToOne

@@ -19,7 +19,7 @@ public interface ProductService {
 
     ResponseModel<List<ProductDTO>> deleteProductInWishlist(String username, String productName, String location);
 
-    ResponseModel<List<ProductDTO>> undoProductInWishlist(String username, String productName, String location);
+    ResponseModel<List<ProductDTO>> undoProductInWishlist(String username, String productName, String location) throws InterruptedException;
 
     ResponseModel<List<ProductDTO>> markProductInWishlist(String username, String productName, String location);
 

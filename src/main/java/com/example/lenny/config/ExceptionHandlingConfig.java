@@ -27,7 +27,8 @@ public class ExceptionHandlingConfig {
                     UserIsNotCustomerException.class,
                     ProductAlreadyExistsInWishlistException.class,
                     ProductDoesntExistInWishlistException.class,
-                    ProductAlreadyUnmarkedException.class
+                    ProductAlreadyUnmarkedException.class,
+                    ProductAlreadyMarkedException.class
             })
     public ResponseEntity<ResponseModel<String>> handleCustomExceptions(Exception ex) throws Exception {
         ResponseModel<String> exceptionResponseModel = new ResponseModel<>();
@@ -47,6 +48,7 @@ public class ExceptionHandlingConfig {
                 || ex instanceof  ProductAlreadyExistsInWishlistException
                 || ex instanceof  ProductDoesntExistInWishlistException
                 || ex instanceof  ProductAlreadyUnmarkedException
+                || ex instanceof  ProductAlreadyMarkedException
         ) {
             httpStatus = HttpStatus.BAD_REQUEST;
 
